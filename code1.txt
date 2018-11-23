@@ -1,0 +1,30 @@
+    class ThreadSafe
+    {
+        static object locker = new object();
+        static int val1, val2;
+        static void Go()
+        {
+            lock (locker)//线程安全
+            {
+                if (val2 != 0)
+                {
+                    Console.WriteLine(val1 / val2);
+                }
+                val2 = 0;
+            }
+        }
+    }
+
+    class ThreadUnsafe
+    {
+        static int val1, val2;
+        static void Go()
+        {
+            if (val2 != 0)
+            {
+                //不安全，执行到此时有可能另一个线程刚执行完：val2=0
+                Console.WriteLine(val1 / val2);
+            }
+            val2 = 0;
+        }
+    }
